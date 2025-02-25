@@ -1,25 +1,26 @@
 package kitchenpos.eatinorders.application;
 
-import kitchenpos.eatinorders.domain.OrderRepository;
-import kitchenpos.eatinorders.domain.OrderStatus;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.UUID;
+import kitchenpos.eatinorders.domain.EatInOrderRepository;
+import kitchenpos.eatinorders.domain.EatInOrderStatus;
 import kitchenpos.eatinorders.domain.OrderTable;
 import kitchenpos.eatinorders.domain.OrderTableRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.UUID;
-
 @Service
 public class OrderTableService {
-    private final OrderTableRepository orderTableRepository;
-    private final OrderRepository orderRepository;
 
-    public OrderTableService(final OrderTableRepository orderTableRepository, final OrderRepository orderRepository) {
+    private final OrderTableRepository orderTableRepository;
+    private final EatInOrderRepository eatInOrderRepository;
+
+    public OrderTableService(final OrderTableRepository orderTableRepository,
+        final EatInOrderRepository eatInOrderRepository) {
         this.orderTableRepository = orderTableRepository;
-        this.orderRepository = orderRepository;
+        this.eatInOrderRepository = eatInOrderRepository;
     }
 
     @Transactional
@@ -48,7 +49,8 @@ public class OrderTableService {
     public OrderTable clear(final UUID orderTableId) {
         final OrderTable orderTable = orderTableRepository.findById(orderTableId)
             .orElseThrow(NoSuchElementException::new);
-        if (orderRepository.existsByOrderTableAndStatusNot(orderTable, OrderStatus.COMPLETED)) {
+        if (eatInOrderRepository.existsByOrderTableAndStatusNot(orderTable,
+            EatInOrderStatus.COMPLETED)) {
             throw new IllegalStateException();
         }
         orderTable.setNumberOfGuests(0);
