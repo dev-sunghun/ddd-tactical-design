@@ -43,13 +43,10 @@ public class TobeProductService {
 
     @Transactional
     public Product changePrice(final UUID productId, final Product request) {
-        final BigDecimal price = request.getPrice();
-        if (Objects.isNull(price) || price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException();
-        }
         final Product product = productRepository.findById(new ProductId(productId))
             .orElseThrow(NoSuchElementException::new);
-        product.setPrice(price);
+        product.setPrice(request.getPrice());
+
         final List<Menu> menus = menuRepository.findAllByProductId(productId);
         for (final Menu menu : menus) {
             BigDecimal sum = BigDecimal.ZERO;

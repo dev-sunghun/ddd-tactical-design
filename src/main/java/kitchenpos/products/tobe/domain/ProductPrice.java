@@ -10,25 +10,25 @@ public class ProductPrice {
     public static final String ERROR_MESSAGE_PRICE = "상품 가격은 0원 이상 이어야 합니다.";
     public static final int MINIMUM_PRICE = 0;
 
-    private BigDecimal price;
+    private BigDecimal value;
 
-    public ProductPrice(final BigDecimal price) {
-        validate(price);
-        this.price = price;
+    public ProductPrice(final BigDecimal value) {
+        validate(value);
+        this.value = value;
     }
 
     public ProductPrice() {
 
     }
 
-    private static void validate(BigDecimal price) {
-        if (price == null || price.compareTo(BigDecimal.ZERO) < MINIMUM_PRICE) {
+    private static void validate(BigDecimal value) {
+        if (value == null || value.compareTo(BigDecimal.ZERO) < MINIMUM_PRICE) {
             throw new IllegalArgumentException(ERROR_MESSAGE_PRICE);
         }
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getValue() {
+        return value;
     }
 
     @Override
@@ -40,11 +40,11 @@ public class ProductPrice {
             return false;
         }
         ProductPrice that = (ProductPrice) object;
-        return Objects.equals(price, that.price);
+        return Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(price);
+        return Objects.hash(value);
     }
 }

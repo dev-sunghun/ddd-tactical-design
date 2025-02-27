@@ -24,7 +24,7 @@ class ProductNameTest {
         ProductName productName = new ProductName(name, purgomalumClient);
 
         // then
-        assertThat(productName.getName()).isEqualTo(name);
+        assertThat(productName.getValue()).isEqualTo(name);
     }
 
     @DisplayName("비속어가 포함된 이름으로 상품 이름을 생성 시, 예외가 발생한다.")

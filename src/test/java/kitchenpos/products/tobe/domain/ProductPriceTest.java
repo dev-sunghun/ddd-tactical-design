@@ -19,7 +19,7 @@ class ProductPriceTest {
         ProductPrice productPrice = new ProductPrice(price);
 
         // then
-        assertThat(productPrice.getPrice()).isEqualTo(price);
+        assertThat(productPrice.getValue()).isEqualTo(price);
     }
 
     @DisplayName("최소 가격 미만으로 상품 가격을 생성 시, 예외가 발생한다.")
