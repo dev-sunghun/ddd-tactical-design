@@ -3,20 +3,20 @@ package kitchenpos.products.tobe.domain;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.UUID;
 import kitchenpos.shared.client.PurgomalumClient;
 
 @Table(name = "product")
-@Entity
+@Entity(name = "TobeProduct")
 public class Product {
 
-    @Column(name = "id", columnDefinition = "binary(16)")
-    @Id
-    private UUID id;
+    @EmbeddedId
+    @AttributeOverride(name = "value", column = @Column(name = "id"))
+    private ProductId id;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "name"))
@@ -29,18 +29,15 @@ public class Product {
     public Product() {
     }
 
-    public Product(final String name, final PurgomalumClient purgomalumClient,
+    public Product(final UUID id, final String name, final PurgomalumClient purgomalumClient,
         final BigDecimal price) {
+        this.id = new ProductId(id);
         this.name = new ProductName(name, purgomalumClient);
         this.price = new ProductPrice(price);
     }
 
     public UUID getId() {
-        return id;
-    }
-
-    public void setId(final UUID id) {
-        this.id = id;
+        return id.getValue();
     }
 
     public String getName() {
@@ -49,5 +46,9 @@ public class Product {
 
     public BigDecimal getPrice() {
         return price.getPrice();
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = new ProductPrice(price);
     }
 }
