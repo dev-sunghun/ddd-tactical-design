@@ -17,6 +17,7 @@ import java.util.UUID;
 @Table(name = "menu")
 @Entity
 public class Menu {
+
     @Column(name = "id", columnDefinition = "binary(16)")
     @Id
     private UUID id;
@@ -107,5 +108,19 @@ public class Menu {
 
     public void setMenuGroupId(final UUID menuGroupId) {
         this.menuGroupId = menuGroupId;
+    }
+
+    private BigDecimal calculateTotalProductPrice() {
+        return menuProducts.stream()
+            .map(MenuProduct::calculatePrice)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private boolean isMenuPriceValid() {
+        return price.compareTo(calculateTotalProductPrice()) <= 0;
+    }
+
+    public void updateDisplayStatus() {
+        this.displayed = isMenuPriceValid();
     }
 }
