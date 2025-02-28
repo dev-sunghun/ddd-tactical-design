@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import kitchenpos.menus.domain.Menu;
 import kitchenpos.menus.domain.MenuRepository;
-import kitchenpos.products.tobe.domain.MenuDisplayStatusUpdater;
+import kitchenpos.products.tobe.domain.MenuProductPort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
  * ACL(Anti-Corruption Layer)의 일부로, 메뉴 바운디드 컨텍스트의 구현 세부사항을 캡슐화
  */
 @Component
-public class MenuDisplayStatusUpdaterImpl implements MenuDisplayStatusUpdater {
+public class MenuProductAdapter implements MenuProductPort {
 
     private final MenuRepository menuRepository;
 
-    public MenuDisplayStatusUpdaterImpl(MenuRepository menuRepository) {
+    public MenuProductAdapter(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
     }
 
