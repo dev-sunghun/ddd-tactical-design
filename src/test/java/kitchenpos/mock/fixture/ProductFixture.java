@@ -15,7 +15,7 @@ public class ProductFixture {
 
     public static Product create(final BigDecimal price) {
         Product product = new Product();
-        product.setPrice(price);
+        product.changePrice(price);
         return product;
     }
 

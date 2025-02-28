@@ -48,7 +48,7 @@ public class Product {
         return price.getValue();
     }
 
-    public void setPrice(BigDecimal price) {
+    public void changePrice(BigDecimal price) {
         this.price = new ProductPrice(price);
     }
 }

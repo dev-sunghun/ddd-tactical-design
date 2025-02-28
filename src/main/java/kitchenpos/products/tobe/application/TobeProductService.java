@@ -43,7 +43,7 @@ public class TobeProductService {
         final Product product = productRepository.findById(new ProductId(productId))
             .orElseThrow(
                 () -> new NoSuchElementException("Product not found with id: " + productId));
-        product.setPrice(request.price());
+        product.changePrice(request.price());
 
         updateMenusDisplayStatus(productId);
         return ProductResponse.from(product);
