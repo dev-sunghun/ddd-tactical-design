@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import kitchenpos.mock.FakePurgomalumClient;
+import kitchenpos.mock.client.FakePurgomalumClient;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.ProductId;
 import kitchenpos.products.tobe.domain.TobeProductRepository;

@@ -3,7 +3,7 @@ package kitchenpos.products.tobe.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import kitchenpos.mock.FakePurgomalumClient;
+import kitchenpos.mock.client.FakePurgomalumClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

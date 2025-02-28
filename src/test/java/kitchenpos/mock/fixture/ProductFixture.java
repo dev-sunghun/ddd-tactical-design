@@ -2,7 +2,7 @@ package kitchenpos.mock.fixture;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-import kitchenpos.mock.FakePurgomalumClient;
+import kitchenpos.mock.client.FakePurgomalumClient;
 import kitchenpos.products.tobe.domain.Product;
 
 public class ProductFixture {

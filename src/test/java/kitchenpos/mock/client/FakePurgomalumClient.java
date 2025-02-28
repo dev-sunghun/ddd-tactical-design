@@ -1,4 +1,4 @@
-package kitchenpos.mock;
+package kitchenpos.mock.client;
 
 import kitchenpos.shared.client.PurgomalumClient;
 

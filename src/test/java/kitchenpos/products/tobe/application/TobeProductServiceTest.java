@@ -7,9 +7,9 @@ import static org.assertj.core.groups.Tuple.tuple;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import kitchenpos.mock.FakePurgomalumClient;
+import kitchenpos.mock.adapter.FakeMenuDisplayStatusUpdater;
+import kitchenpos.mock.client.FakePurgomalumClient;
 import kitchenpos.mock.fixture.ProductFixture;
-import kitchenpos.mock.persistence.FakeMenuRepository;
 import kitchenpos.mock.persistence.FakeProductRepository;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.ProductName;
@@ -35,10 +35,10 @@ class TobeProductServiceTest {
     @BeforeEach
     void setUp() {
         FakeProductRepository productRepository = new FakeProductRepository();
-        FakeMenuRepository menuRepository = new FakeMenuRepository();
+        FakeMenuDisplayStatusUpdater menuDisplayStatusUpdater = new FakeMenuDisplayStatusUpdater();
         FakePurgomalumClient purgomalumClient = new FakePurgomalumClient();
-        productService = new TobeProductService(productRepository, menuRepository,
-            purgomalumClient);
+        productService = new TobeProductService(productRepository, purgomalumClient,
+            menuDisplayStatusUpdater);
     }
 
     @DisplayName("이름과 가격으로 상품을 생성할 수 있다.")
