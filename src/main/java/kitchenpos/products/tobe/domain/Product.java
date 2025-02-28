@@ -26,7 +26,7 @@ public class Product {
     @AttributeOverride(name = "value", column = @Column(name = "price"))
     private ProductPrice price;
 
-    public Product() {
+    protected Product() {
     }
 
     public Product(final UUID id, final String name, final PurgomalumClient purgomalumClient,

@@ -18,7 +18,7 @@ public class ProductName {
         this.value = value;
     }
 
-    public ProductName() {
+    protected ProductName() {
 
     }
 

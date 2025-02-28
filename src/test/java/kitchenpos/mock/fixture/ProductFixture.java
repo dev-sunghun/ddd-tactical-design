@@ -7,6 +7,7 @@ import kitchenpos.products.tobe.domain.Product;
 
 public class ProductFixture {
 
+    public static final String DEFAULT_PRODUCT_NAME = "피자";
     private static final FakePurgomalumClient CLIENT = new FakePurgomalumClient();
 
     public static Product create(final String name, final BigDecimal price) {
@@ -14,9 +15,7 @@ public class ProductFixture {
     }
 
     public static Product create(final BigDecimal price) {
-        Product product = new Product();
-        product.changePrice(price);
-        return product;
+        return new Product(UUID.randomUUID(), DEFAULT_PRODUCT_NAME, CLIENT, price);
     }
 
 }

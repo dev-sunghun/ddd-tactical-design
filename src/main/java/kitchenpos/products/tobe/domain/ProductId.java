@@ -16,7 +16,7 @@ public class ProductId {
         this.value = value;
     }
 
-    public ProductId() {
+    protected ProductId() {
 
     }
 

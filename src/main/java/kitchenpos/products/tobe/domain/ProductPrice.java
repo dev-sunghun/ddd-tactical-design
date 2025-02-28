@@ -17,7 +17,7 @@ public class ProductPrice {
         this.value = value;
     }
 
-    public ProductPrice() {
+    protected ProductPrice() {
 
     }
 
