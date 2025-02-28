@@ -115,7 +115,7 @@ class TobeProductServiceTest {
             .hasMessage(ProductPrice.ERROR_MESSAGE_PRICE);
     }
 
-    @DisplayName("이름과 가격으로 상품을 생성할 수 있다.")
+    @DisplayName("생성된 상품 목록을 조회 할 수 있다.")
     @Test
     void findAll() {
         // given
