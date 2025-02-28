@@ -10,6 +10,8 @@ import kitchenpos.menus.domain.MenuRepository;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.ProductId;
 import kitchenpos.products.tobe.domain.TobeProductRepository;
+import kitchenpos.products.tobe.dto.ProductRequest;
+import kitchenpos.products.tobe.dto.ProductResponse;
 import kitchenpos.shared.client.PurgomalumClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,19 +34,17 @@ public class TobeProductService {
     }
 
     @Transactional
-    public Product create(final Product request) {
-        final BigDecimal price = request.getPrice();
-        final String name = request.getName();
-        final UUID id = UUID.randomUUID();
-        final Product product = new Product(id, name, purgomalumClient, price);
-        return productRepository.save(product);
+    public ProductResponse create(final ProductRequest request) {
+        final Product product = new Product(UUID.randomUUID(), request.name(), purgomalumClient,
+            request.price());
+        return ProductResponse.from(productRepository.save(product));
     }
 
     @Transactional
-    public Product changePrice(final UUID productId, final Product request) {
+    public ProductResponse changePrice(final UUID productId, final ProductRequest request) {
         final Product product = productRepository.findById(new ProductId(productId))
             .orElseThrow(NoSuchElementException::new);
-        product.setPrice(request.getPrice());
+        product.setPrice(request.price());
 
         final List<Menu> menus = menuRepository.findAllByProductId(productId);
         for (final Menu menu : menus) {
@@ -60,11 +60,17 @@ public class TobeProductService {
                 menu.setDisplayed(false);
             }
         }
-        return product;
+        return ProductResponse.from(product);
     }
 
     @Transactional(readOnly = true)
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductResponse> getProductResponses() {
+        return findAll().stream()
+            .map(ProductResponse::from).toList();
     }
 }

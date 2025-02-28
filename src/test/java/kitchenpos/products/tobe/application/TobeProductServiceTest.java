@@ -14,6 +14,8 @@ import kitchenpos.mock.persistence.FakeProductRepository;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.ProductName;
 import kitchenpos.products.tobe.domain.ProductPrice;
+import kitchenpos.products.tobe.dto.ProductRequest;
+import kitchenpos.products.tobe.dto.ProductResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,14 +45,14 @@ class TobeProductServiceTest {
     @Test
     void create() {
         // given
-        Product product = ProductFixture.create(PRODUCT_NAME, PRICE);
+        ProductRequest request = new ProductRequest(PRODUCT_NAME, PRICE);
 
         // when
-        Product savedProduct = productService.create(product);
+        ProductResponse productResponse = productService.create(request);
 
         // then
-        assertThat(savedProduct.getName()).isEqualTo(PRODUCT_NAME);
-        assertThat(savedProduct.getPrice()).isEqualTo(PRICE);
+        assertThat(productResponse.name()).isEqualTo(PRODUCT_NAME);
+        assertThat(productResponse.price()).isEqualTo(PRICE);
     }
 
     @DisplayName("비속어 상품 이름으로 생성 시, 예외가 발생한다.")
@@ -85,29 +87,30 @@ class TobeProductServiceTest {
     @Test
     void changePrice() {
         // given
-        Product product = ProductFixture.create(PRODUCT_NAME, PRICE);
-        Product savedProduct = productService.create(product);
+        ProductRequest request = new ProductRequest(PRODUCT_NAME, PRICE);
+        ProductResponse productResponse = productService.create(request);
 
-        UUID productId = savedProduct.getId();
+        UUID productId = productResponse.id();
         BigDecimal newPrice = PRICE.add(BigDecimal.valueOf(10000));
-        Product newProduct = ProductFixture.create(newPrice);
+        ProductRequest changeRequest = new ProductRequest(PRODUCT_NAME, newPrice);
 
         // when
-        Product updatedProduct = productService.changePrice(productId, newProduct);
+        ProductResponse updatedProductResponse = productService.changePrice(productId,
+            changeRequest);
 
         // then
-        assertThat(updatedProduct.getPrice()).isEqualTo(newPrice);
-        assertThat(updatedProduct.getId()).isEqualTo(productId);
+        assertThat(updatedProductResponse.price()).isEqualTo(newPrice);
+        assertThat(updatedProductResponse.id()).isEqualTo(productId);
     }
 
     @DisplayName("마이너스 가격으로 상품 가격 수정 시, 예외가 발생한다.")
     @Test
     void changePricePriceException() {
         // given
-        Product product = ProductFixture.create(PRODUCT_NAME, BigDecimal.ZERO);
-        Product savedProduct = productService.create(product);
+        ProductRequest request = new ProductRequest(PRODUCT_NAME, BigDecimal.ZERO);
+        ProductResponse productResponse = productService.create(request);
 
-        BigDecimal newPrice = savedProduct.getPrice().add(MINUS_PRICE);
+        BigDecimal newPrice = productResponse.price().add(MINUS_PRICE);
 
         // when then
         assertThatThrownBy(() -> ProductFixture.create(newPrice))
@@ -128,7 +131,7 @@ class TobeProductServiceTest {
         );
 
         products.forEach(pair ->
-            productService.create(ProductFixture.create(pair.getFirst(), pair.getSecond()))
+            productService.create(new ProductRequest(pair.getFirst(), pair.getSecond()))
         );
 
         // when
