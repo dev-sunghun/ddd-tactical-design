@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * MenuDisplayStatusUpdater 인터페이스의 구현체
+ * MenuProductPort 인터페이스의 구현체
  * ACL(Anti-Corruption Layer)의 일부로, 메뉴 바운디드 컨텍스트의 구현 세부사항을 캡슐화
  */
 @Component
