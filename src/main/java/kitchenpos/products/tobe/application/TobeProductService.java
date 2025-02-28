@@ -43,7 +43,8 @@ public class TobeProductService {
     @Transactional
     public ProductResponse changePrice(final UUID productId, final ProductRequest request) {
         final Product product = productRepository.findById(new ProductId(productId))
-            .orElseThrow(NoSuchElementException::new);
+            .orElseThrow(
+                () -> new NoSuchElementException("Product not found with id: " + productId));
         product.setPrice(request.price());
 
         final List<Menu> menus = menuRepository.findAllByProductId(productId);
