@@ -1,9 +1,8 @@
 package kitchenpos.menus.tobe.domain;
 
+import jakarta.persistence.Embeddable;
 import java.math.BigDecimal;
 import java.util.Objects;
-
-import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class MenuPrice {

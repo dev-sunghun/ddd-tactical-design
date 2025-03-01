@@ -27,7 +27,7 @@ class ProductIdTest {
     @DisplayName("상품 ID 값이 올바르지 않으면, 예외가 발생한다.")
     @ParameterizedTest
     @NullSource
-    void createWithNegativePrice(UUID value) {
+    void createWithNull(UUID value) {
         // when then
         assertThatThrownBy(() -> new ProductId(value))
             .isInstanceOf(IllegalArgumentException.class)
