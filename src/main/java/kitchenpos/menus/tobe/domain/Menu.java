@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import kitchenpos.menus.domain.MenuGroup;
 import kitchenpos.menus.domain.MenuProduct;
 import kitchenpos.shared.client.PurgomalumClient;
 
