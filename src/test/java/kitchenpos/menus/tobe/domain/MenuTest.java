@@ -1,23 +1,25 @@
-package kitchenpos.products.tobe.domain;
+package kitchenpos.menus.tobe.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 import kitchenpos.mock.client.FakePurgomalumClient;
+import kitchenpos.products.tobe.domain.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ProductTest {
+class MenuTest {
 
     private final FakePurgomalumClient purgomalumClient = new FakePurgomalumClient();
 
 
-    @DisplayName("상품을 생성할 수 있다.")
+    @DisplayName("메뉴를 생성할 수 있다.")
     @Test
     void create() {
         // given
-        final String name = "양념치킨";
+        final String name = "반반치킨";
         final BigDecimal price = new BigDecimal(100);
         final UUID id = UUID.randomUUID();
         // when
