@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.UUID;
-import kitchenpos.menus.tobe.domain.menu.ProductPriceClient;
+import kitchenpos.menus.tobe.domain.menu.ProductPriceService;
 import kitchenpos.products.tobe.domain.ProductId;
 
 @Table(name = "menu_product")
@@ -58,8 +58,8 @@ public class MenuProduct {
         return productId.getValue();
     }
 
-    public BigDecimal calculatePrice(ProductPriceClient productPriceClient) {
-        return productPriceClient.getPriceByProductId(this.productId.getValue())
+    public BigDecimal calculatePrice(ProductPriceService productPriceService) {
+        return productPriceService.getPriceByProductId(this.productId.getValue())
             .multiply(BigDecimal.valueOf(getQuantity()));
     }
 }

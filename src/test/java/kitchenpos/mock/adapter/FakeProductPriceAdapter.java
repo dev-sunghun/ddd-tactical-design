@@ -2,11 +2,11 @@ package kitchenpos.mock.adapter;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-import kitchenpos.menus.tobe.domain.menu.ProductPriceClient;
+import kitchenpos.menus.tobe.domain.menu.ProductPriceService;
 import kitchenpos.mock.TestUtil;
 import kitchenpos.mock.persistence.FakeProductRepository;
 
-public class FakeProductPriceAdapter implements ProductPriceClient {
+public class FakeProductPriceAdapter implements ProductPriceService {
 
     public static BigDecimal PRICE = TestUtil.PRICE;
     private final FakeProductRepository productRepository;

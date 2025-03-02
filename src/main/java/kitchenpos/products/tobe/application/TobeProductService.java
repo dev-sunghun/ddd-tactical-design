@@ -3,7 +3,7 @@ package kitchenpos.products.tobe.application;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import kitchenpos.products.tobe.domain.MenuProductPort;
+import kitchenpos.products.tobe.domain.MenuDisplayTranslator;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.TobeProductRepository;
 import kitchenpos.products.tobe.dto.ProductRequest;
@@ -17,16 +17,16 @@ public class TobeProductService {
 
     private final TobeProductRepository productRepository;
     private final PurgomalumClient purgomalumClient;
-    private final MenuProductPort menuProductPort;
+    private final MenuDisplayTranslator menuDisplayTranslator;
 
     public TobeProductService(
         final TobeProductRepository productRepository,
         final PurgomalumClient purgomalumClient,
-        final MenuProductPort menuProductPort
+        final MenuDisplayTranslator menuDisplayTranslator
     ) {
         this.productRepository = productRepository;
         this.purgomalumClient = purgomalumClient;
-        this.menuProductPort = menuProductPort;
+        this.menuDisplayTranslator = menuDisplayTranslator;
     }
 
     @Transactional
@@ -44,7 +44,7 @@ public class TobeProductService {
         product.changePrice(request.price());
 
         // ACL을 통한 메뉴 표시 상태 업데이트
-        menuProductPort.updateMenusDisplayStatusByProductId(productId);
+        menuDisplayTranslator.updateMenusDisplayStatusByProductId(productId);
         return ProductResponse.from(product);
     }
 

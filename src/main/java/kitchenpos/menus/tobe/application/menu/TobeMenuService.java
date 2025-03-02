@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import kitchenpos.menus.tobe.application.menugroup.TobeMenuGroupService;
 import kitchenpos.menus.tobe.domain.menu.Menu;
-import kitchenpos.menus.tobe.domain.menu.ProductPriceClient;
+import kitchenpos.menus.tobe.domain.menu.ProductPriceService;
 import kitchenpos.menus.tobe.domain.menu.TobeMenuRepository;
 import kitchenpos.menus.tobe.domain.menugroup.MenuGroup;
 import kitchenpos.menus.tobe.dto.menu.MenuChangeRequest;
@@ -21,18 +21,18 @@ public class TobeMenuService {
     private final TobeMenuRepository menuRepository;
     private final TobeMenuGroupService tobeMenuGroupService;
     private final PurgomalumClient purgomalumClient;
-    private final ProductPriceClient productPriceClient;
+    private final ProductPriceService productPriceService;
 
     public TobeMenuService(
         final TobeMenuRepository menuRepository,
         final TobeMenuGroupService tobeMenuGroupService,
         final PurgomalumClient purgomalumClient,
-        final ProductPriceClient productPriceClient
+        final ProductPriceService productPriceService
     ) {
         this.menuRepository = menuRepository;
         this.tobeMenuGroupService = tobeMenuGroupService;
         this.purgomalumClient = purgomalumClient;
-        this.productPriceClient = productPriceClient;
+        this.productPriceService = productPriceService;
     }
 
     @Transactional(readOnly = true)
@@ -44,21 +44,21 @@ public class TobeMenuService {
     @Transactional
     public MenuResponse create(final MenuCreateRequest request) {
         final MenuGroup menuGroup = tobeMenuGroupService.getById(request.menuGroupId());
-        Menu menu = request.toEntityWith(purgomalumClient, menuGroup, productPriceClient);
+        Menu menu = request.toEntityWith(purgomalumClient, menuGroup, productPriceService);
         return MenuResponse.from(menuRepository.save(menu));
     }
 
     @Transactional
     public MenuResponse changePrice(final UUID menuId, final MenuChangeRequest request) {
         final Menu menu = getById(menuId);
-        menu.changePrice(request.price(), productPriceClient);
+        menu.changePrice(request.price(), productPriceService);
         return MenuResponse.from(menu);
     }
 
     @Transactional
     public MenuResponse display(final UUID menuId) {
         final Menu menu = getById(menuId);
-        menu.display(productPriceClient);
+        menu.display(productPriceService);
         return MenuResponse.from(menu);
     }
 

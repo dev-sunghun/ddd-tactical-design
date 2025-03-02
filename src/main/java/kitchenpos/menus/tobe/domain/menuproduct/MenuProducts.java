@@ -8,7 +8,7 @@ import jakarta.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-import kitchenpos.menus.tobe.domain.menu.ProductPriceClient;
+import kitchenpos.menus.tobe.domain.menu.ProductPriceService;
 
 @Embeddable
 public class MenuProducts {
@@ -44,9 +44,9 @@ public class MenuProducts {
         return value;
     }
 
-    public BigDecimal calculateTotalProductPrice(ProductPriceClient productPriceClient) {
+    public BigDecimal calculateTotalProductPrice(ProductPriceService productPriceService) {
         return getValue().stream()
-            .map(x -> x.calculatePrice(productPriceClient))
+            .map(x -> x.calculatePrice(productPriceService))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
