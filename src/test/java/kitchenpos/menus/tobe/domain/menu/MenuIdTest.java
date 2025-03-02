@@ -1,37 +1,36 @@
-package kitchenpos.menus.tobe.domain;
+package kitchenpos.menus.tobe.domain.menu;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.util.UUID;
-import kitchenpos.menus.tobe.domain.menugroup.MenuGroupId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 
-class MenuGroupIdTest {
+class MenuIdTest {
 
-    @DisplayName("UUID로 메뉴 그룹 ID를 생성할 수 있다.")
+    @DisplayName("UUID로 메뉴 ID를 생성할 수 있다.")
     @Test
     void create() {
         // given
         UUID id = UUID.randomUUID();
 
         // when
-        MenuGroupId menuGroupId = new MenuGroupId(id);
+        MenuId menuId = new MenuId(id);
 
         // then
-        assertThat(menuGroupId.getValue()).isEqualTo(id);
+        assertThat(menuId.getValue()).isEqualTo(id);
     }
 
-    @DisplayName("메뉴 그룹 ID 값이 올바르지 않으면, 예외가 발생한다.")
+    @DisplayName("메뉴 ID 값이 올바르지 않으면, 예외가 발생한다.")
     @ParameterizedTest
     @NullSource
-    void createWitNull(UUID value) {
+    void createWithNull(UUID value) {
         // when then
-        assertThatThrownBy(() -> new MenuGroupId(value))
+        assertThatThrownBy(() -> new MenuId(value))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(MenuGroupId.ERROR_MESSAGE_VALUE_NULL);
+            .hasMessage(MenuId.ERROR_MESSAGE_VALUE_NULL);
     }
 }
