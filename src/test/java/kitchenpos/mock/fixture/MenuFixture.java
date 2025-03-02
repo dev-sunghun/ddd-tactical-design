@@ -2,8 +2,8 @@ package kitchenpos.mock.fixture;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-import kitchenpos.menus.tobe.domain.Menu;
-import kitchenpos.menus.tobe.domain.MenuGroup;
+import kitchenpos.menus.tobe.domain.menu.Menu;
+import kitchenpos.menus.tobe.domain.menugroup.MenuGroup;
 import kitchenpos.mock.client.FakePurgomalumClient;
 
 public class MenuFixture {

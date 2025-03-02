@@ -1,4 +1,4 @@
-package kitchenpos.menus.tobe.domain;
+package kitchenpos.menus.tobe.domain.menugroup;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;

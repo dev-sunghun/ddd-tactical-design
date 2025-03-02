@@ -1,4 +1,4 @@
-package kitchenpos.menus.tobe.domain;
+package kitchenpos.menus.tobe.domain.menu;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -12,6 +12,9 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+import kitchenpos.menus.tobe.domain.menugroup.MenuGroup;
+import kitchenpos.menus.tobe.domain.menuproduct.MenuProduct;
+import kitchenpos.menus.tobe.domain.menuproduct.MenuProducts;
 import kitchenpos.shared.client.PurgomalumClient;
 
 @Table(name = "menu")

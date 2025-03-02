@@ -1,4 +1,4 @@
-package kitchenpos.menus.tobe.domain;
+package kitchenpos.menus.tobe.domain.menuproduct;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;

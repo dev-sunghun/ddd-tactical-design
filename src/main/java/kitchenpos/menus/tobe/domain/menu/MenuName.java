@@ -1,28 +1,33 @@
-package kitchenpos.menus.tobe.domain;
+package kitchenpos.menus.tobe.domain.menu;
 
 import jakarta.persistence.Embeddable;
 import java.util.Objects;
+import kitchenpos.shared.client.PurgomalumClient;
 
 @Embeddable
-public class MenuGroupName {
+public class MenuName {
 
     public static final String ERROR_MESSAGE_EMPTY = "상품 이름이 공백입니다.";
+    public static final String ERROR_MESSAGE_PROFANITY = "상품 이름에 비속어가 포함되어 있습니다.";
 
     private String value;
 
-    public MenuGroupName(final String value) {
-        validate(value);
+    public MenuName(final String value, final PurgomalumClient purgomalumClient) {
+        validate(value, purgomalumClient);
 
         this.value = value;
     }
 
-    protected MenuGroupName() {
+    protected MenuName() {
 
     }
 
-    private static void validate(String value) {
+    private static void validate(String value, PurgomalumClient purgomalumClient) {
         if (Objects.isNull(value) || value.isEmpty()) {
             throw new IllegalArgumentException(ERROR_MESSAGE_EMPTY);
+        }
+        if (purgomalumClient.containsProfanity(value)) {
+            throw new IllegalArgumentException(ERROR_MESSAGE_PROFANITY);
         }
     }
 
@@ -38,7 +43,7 @@ public class MenuGroupName {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        MenuGroupName that = (MenuGroupName) object;
+        MenuName that = (MenuName) object;
         return Objects.equals(value, that.value);
     }
 
