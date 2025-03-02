@@ -1,4 +1,4 @@
-package kitchenpos.menus.infra.adapter;
+package kitchenpos.menus.tobe.infra.adapter;
 
 import java.util.List;
 import java.util.UUID;

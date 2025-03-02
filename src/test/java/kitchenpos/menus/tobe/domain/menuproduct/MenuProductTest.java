@@ -20,11 +20,11 @@ class MenuProductTest {
         final Product product = ProductFixture.create(price);
 
         // when
-        MenuProduct menuProduct = new MenuProduct(seq, product, new MenuProductQuantity(quantity));
+        MenuProduct menuProduct = new MenuProduct(seq, product.getId(), quantity);
 
         // then
         assertThat(menuProduct.getSeq()).isEqualTo(seq);
-        assertThat(menuProduct.getProduct().getPrice()).isEqualTo(price);
+        assertThat(menuProduct.getProductId()).isEqualTo(product.getId());
         assertThat(menuProduct.getQuantity()).isEqualTo(quantity);
     }
 }

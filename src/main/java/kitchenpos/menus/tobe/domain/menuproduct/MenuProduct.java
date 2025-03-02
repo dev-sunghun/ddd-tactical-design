@@ -4,15 +4,14 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
-import kitchenpos.products.tobe.domain.Product;
+import java.util.UUID;
+import kitchenpos.menus.tobe.domain.menu.ProductPriceClient;
+import kitchenpos.products.tobe.domain.ProductId;
 
 @Table(name = "menu_product")
 @Entity(name = "TobeMenuProduct")
@@ -23,23 +22,24 @@ public class MenuProduct {
     @Id
     private Long seq;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(
-        name = "product_id",
-        columnDefinition = "binary(16)",
-        foreignKey = @ForeignKey(name = "fk_menu_product_to_product")
-    )
-    private Product product;
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "product_id"))
+    private ProductId productId;
 
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "quantity", nullable = false))
     private MenuProductQuantity quantity;
 
-    public MenuProduct(Long seq, Product product, MenuProductQuantity quantity) {
+    public MenuProduct(Long seq, UUID productId, long quantity) {
         this.seq = seq;
-        this.product = product;
-        this.quantity = quantity;
+        this.productId = new ProductId(productId);
+        this.quantity = new MenuProductQuantity(quantity);
+    }
+
+    public MenuProduct(UUID productId, long quantity) {
+        this.productId = new ProductId(productId);
+        this.quantity = new MenuProductQuantity(quantity);
     }
 
     protected MenuProduct() {
@@ -54,14 +54,12 @@ public class MenuProduct {
         return quantity.getValue();
     }
 
-
-    public Product getProduct() {
-        return product;
+    public UUID getProductId() {
+        return productId.getValue();
     }
 
-    public BigDecimal calculatePrice() {
-        return getProduct()
-            .getPrice()
+    public BigDecimal calculatePrice(ProductPriceClient productPriceClient) {
+        return productPriceClient.getPriceByProductId(this.productId.getValue())
             .multiply(BigDecimal.valueOf(getQuantity()));
     }
 }

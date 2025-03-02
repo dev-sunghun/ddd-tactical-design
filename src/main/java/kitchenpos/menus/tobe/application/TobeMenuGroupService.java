@@ -1,10 +1,12 @@
 package kitchenpos.menus.tobe.application;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 import kitchenpos.menus.tobe.domain.menugroup.MenuGroup;
 import kitchenpos.menus.tobe.domain.menugroup.TobeMenuGroupRepository;
-import kitchenpos.menus.tobe.dto.MenuGroupRequest;
-import kitchenpos.menus.tobe.dto.MenuGroupResponse;
+import kitchenpos.menus.tobe.dto.menugroup.MenuGroupRequest;
+import kitchenpos.menus.tobe.dto.menugroup.MenuGroupResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,12 @@ public class TobeMenuGroupService {
     public MenuGroupResponse create(final MenuGroupRequest request) {
         final MenuGroup menuGroup = new MenuGroup(request.id(), request.name());
         return MenuGroupResponse.from(menuGroupRepository.save(menuGroup));
+    }
+
+    @Transactional(readOnly = true)
+    public MenuGroup getById(UUID menuGroupId) {
+        return menuGroupRepository.findById(menuGroupId).orElseThrow(
+            () -> new NoSuchElementException("MenuGroup not found with id: " + menuGroupId));
     }
 
     @Transactional(readOnly = true)

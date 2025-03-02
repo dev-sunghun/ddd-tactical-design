@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import kitchenpos.products.tobe.domain.MenuProductPort;
 import kitchenpos.products.tobe.domain.Product;
-import kitchenpos.products.tobe.domain.ProductId;
 import kitchenpos.products.tobe.domain.TobeProductRepository;
 import kitchenpos.products.tobe.dto.ProductRequest;
 import kitchenpos.products.tobe.dto.ProductResponse;
@@ -39,7 +38,7 @@ public class TobeProductService {
 
     @Transactional
     public ProductResponse changePrice(final UUID productId, final ProductRequest request) {
-        final Product product = productRepository.findById(new ProductId(productId))
+        final Product product = productRepository.findById(productId)
             .orElseThrow(
                 () -> new NoSuchElementException("Product not found with id: " + productId));
         product.changePrice(request.price());

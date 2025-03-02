@@ -48,17 +48,34 @@ public class Menu {
     private MenuProducts menuProducts;
 
     public Menu(UUID id, String name, final PurgomalumClient purgomalumClient, BigDecimal price,
-        MenuGroup menuGroup, boolean displayed, List<MenuProduct> menuProducts) {
+        MenuGroup menuGroup, boolean displayed, List<MenuProduct> menuProducts,
+        ProductPriceClient productPriceClient) {
         this.id = new MenuId(id);
         this.name = new MenuName(name, purgomalumClient);
-        this.price = new MenuPrice(price);
         this.menuGroup = menuGroup;
         this.displayed = displayed;
+        validatePrice(price, menuProducts, productPriceClient);
+        this.price = new MenuPrice(price);
         this.menuProducts = new MenuProducts(menuProducts);
     }
 
     protected Menu() {
     }
+
+    private void validatePrice(BigDecimal menuPrice, List<MenuProduct> menuProducts,
+        ProductPriceClient productPriceClient) {
+        BigDecimal sum = menuProducts.stream()
+            .map(menuProduct -> menuProduct.calculatePrice(productPriceClient))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (menuPrice.compareTo(sum) > 0) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validatePrice(ProductPriceClient productPriceClient) {
+        validatePrice(this.price.getValue(), this.menuProducts.getValue(), productPriceClient);
+    }
+
 
     public UUID getId() {
         return id.getValue();
@@ -72,7 +89,8 @@ public class Menu {
         return price.getValue();
     }
 
-    public void changePrice(final BigDecimal price) {
+    public void changePrice(final BigDecimal price, ProductPriceClient productPriceClient) {
+        validatePrice(price, this.menuProducts.getValue(), productPriceClient);
         this.price = new MenuPrice(price);
     }
 
@@ -92,17 +110,22 @@ public class Menu {
         return getMenuGroup().getId();
     }
 
-    private BigDecimal calculateTotalProductPrice() {
-        return menuProducts.getValue().stream()
-            .map(MenuProduct::calculatePrice)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    private boolean isMenuPriceValid(ProductPriceClient productPriceClient) {
+        return
+            price.getValue().compareTo(menuProducts.calculateTotalProductPrice(productPriceClient))
+                <= 0;
     }
 
-    private boolean isMenuPriceValid() {
-        return price.getValue().compareTo(calculateTotalProductPrice()) <= 0;
+    public void updateDisplayStatus(ProductPriceClient productPriceClient) {
+        this.displayed = isMenuPriceValid(productPriceClient);
     }
 
-    public void updateDisplayStatus() {
-        this.displayed = isMenuPriceValid();
+    public void display(ProductPriceClient productPriceClient) {
+        validatePrice(productPriceClient);
+        this.displayed = true;
+    }
+
+    public void hide() {
+        this.displayed = false;
     }
 }

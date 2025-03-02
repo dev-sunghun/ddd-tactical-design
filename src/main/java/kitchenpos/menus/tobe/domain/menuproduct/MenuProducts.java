@@ -5,11 +5,16 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import kitchenpos.menus.tobe.domain.menu.ProductPriceClient;
 
 @Embeddable
 public class MenuProducts {
+
+    public static final String ERROR_MESSAGE_EMPTY = "최소 1개 이상의 메뉴 상품이 포함되어야 합니다.";
+
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(
@@ -21,6 +26,7 @@ public class MenuProducts {
     private List<MenuProduct> value;
 
     public MenuProducts(List<MenuProduct> value) {
+        validate(value);
         this.value = value;
     }
 
@@ -28,8 +34,20 @@ public class MenuProducts {
 
     }
 
+    private static void validate(List<MenuProduct> value) {
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException(ERROR_MESSAGE_EMPTY);
+        }
+    }
+
     public List<MenuProduct> getValue() {
         return value;
+    }
+
+    public BigDecimal calculateTotalProductPrice(ProductPriceClient productPriceClient) {
+        return getValue().stream()
+            .map(x -> x.calculatePrice(productPriceClient))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
