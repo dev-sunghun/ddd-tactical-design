@@ -1,4 +1,4 @@
-package kitchenpos.menus.tobe.application;
+package kitchenpos.menus.tobe.application.menugroup;
 
 import java.util.List;
 import java.util.NoSuchElementException;
