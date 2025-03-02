@@ -1,4 +1,4 @@
-package kitchenpos.menus.tobe.domain.menu;
+package kitchenpos.menus.tobe.domain.ohs;
 
 import java.math.BigDecimal;
 import java.util.UUID;

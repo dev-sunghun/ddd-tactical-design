@@ -1,9 +1,9 @@
-package kitchenpos.products.tobe.infra.adapter;
+package kitchenpos.products.tobe.infra.ohs;
 
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import kitchenpos.menus.tobe.domain.menu.ProductPriceService;
+import kitchenpos.menus.tobe.domain.ohs.ProductPriceService;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.TobeProductRepository;
 import org.springframework.stereotype.Component;

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import kitchenpos.menus.domain.Menu;
 import kitchenpos.menus.domain.MenuRepository;
-import kitchenpos.products.tobe.domain.MenuDisplayTranslator;
+import kitchenpos.products.tobe.domain.acl.MenuDisplayTranslator;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

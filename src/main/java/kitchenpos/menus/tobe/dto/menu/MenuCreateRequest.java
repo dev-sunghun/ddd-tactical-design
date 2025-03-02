@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import kitchenpos.menus.tobe.domain.menu.Menu;
-import kitchenpos.menus.tobe.domain.menu.ProductPriceService;
 import kitchenpos.menus.tobe.domain.menugroup.MenuGroup;
 import kitchenpos.menus.tobe.domain.menuproduct.MenuProduct;
+import kitchenpos.menus.tobe.domain.ohs.ProductPriceService;
 import kitchenpos.shared.client.PurgomalumClient;
 
 public record MenuCreateRequest(String name, BigDecimal price, UUID menuGroupId,

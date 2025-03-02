@@ -15,6 +15,7 @@ import java.util.UUID;
 import kitchenpos.menus.tobe.domain.menugroup.MenuGroup;
 import kitchenpos.menus.tobe.domain.menuproduct.MenuProduct;
 import kitchenpos.menus.tobe.domain.menuproduct.MenuProducts;
+import kitchenpos.menus.tobe.domain.ohs.ProductPriceService;
 import kitchenpos.shared.client.PurgomalumClient;
 
 @Table(name = "menu")
@@ -112,7 +113,8 @@ public class Menu {
 
     private boolean isMenuPriceValid(ProductPriceService productPriceService) {
         return
-            price.getValue().compareTo(menuProducts.calculateTotalProductPrice(productPriceService))
+            price.getValue().compareTo(menuProducts.calculateTotalProductPrice(
+                productPriceService))
                 <= 0;
     }
 
