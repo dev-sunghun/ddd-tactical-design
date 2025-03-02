@@ -1,7 +1,6 @@
 package kitchenpos.menus.tobe.domain;
 
 import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
@@ -9,12 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import kitchenpos.menus.domain.MenuProduct;
 import kitchenpos.shared.client.PurgomalumClient;
 
 @Table(name = "menu")
@@ -44,14 +41,8 @@ public class Menu {
     @Column(name = "displayed", nullable = false)
     private boolean displayed;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(
-        name = "menu_id",
-        nullable = false,
-        columnDefinition = "binary(16)",
-        foreignKey = @ForeignKey(name = "fk_menu_product_to_menu")
-    )
-    private List<MenuProduct> menuProducts;
+    @Embedded
+    private MenuProducts menuProducts;
 
     public Menu(UUID id, String name, final PurgomalumClient purgomalumClient, BigDecimal price,
         MenuGroup menuGroup, boolean displayed, List<MenuProduct> menuProducts) {
@@ -60,7 +51,7 @@ public class Menu {
         this.price = new MenuPrice(price);
         this.menuGroup = menuGroup;
         this.displayed = displayed;
-        this.menuProducts = menuProducts;
+        this.menuProducts = new MenuProducts(menuProducts);
     }
 
     protected Menu() {
@@ -91,7 +82,7 @@ public class Menu {
     }
 
     public List<MenuProduct> getMenuProducts() {
-        return menuProducts;
+        return menuProducts.getValue();
     }
 
     public UUID getMenuGroupId() {
@@ -99,7 +90,7 @@ public class Menu {
     }
 
     private BigDecimal calculateTotalProductPrice() {
-        return menuProducts.stream()
+        return menuProducts.getValue().stream()
             .map(MenuProduct::calculatePrice)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
