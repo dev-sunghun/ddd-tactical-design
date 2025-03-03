@@ -1,4 +1,4 @@
-package kitchenpos.products.tobe.domain;
+package kitchenpos.menus.tobe.domain.menu;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -9,28 +9,28 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 
-class ProductIdTest {
+class MenuIdTest {
 
-    @DisplayName("UUID로 상품 ID를 생성할 수 있다.")
+    @DisplayName("UUID로 메뉴 ID를 생성할 수 있다.")
     @Test
     void create() {
         // given
         UUID id = UUID.randomUUID();
 
         // when
-        ProductId productId = new ProductId(id);
+        MenuId menuId = new MenuId(id);
 
         // then
-        assertThat(productId.getValue()).isEqualTo(id);
+        assertThat(menuId.getValue()).isEqualTo(id);
     }
 
-    @DisplayName("상품 ID 값이 올바르지 않으면, 예외가 발생한다.")
+    @DisplayName("메뉴 ID 값이 올바르지 않으면, 예외가 발생한다.")
     @ParameterizedTest
     @NullSource
     void createWithNull(UUID value) {
         // when then
-        assertThatThrownBy(() -> new ProductId(value))
+        assertThatThrownBy(() -> new MenuId(value))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(ProductId.ERROR_MESSAGE_VALUE_NULL);
+            .hasMessage(MenuId.ERROR_MESSAGE_VALUE_NULL);
     }
 }

@@ -1,26 +1,24 @@
 package kitchenpos.mock.persistence;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import kitchenpos.menus.domain.Menu;
-import kitchenpos.menus.domain.MenuProduct;
-import kitchenpos.menus.domain.MenuRepository;
+import kitchenpos.menus.tobe.domain.menu.Menu;
+import kitchenpos.menus.tobe.domain.menu.TobeMenuRepository;
 
 
-public class FakeMenuRepository implements MenuRepository {
+public class FakeMenuRepository implements TobeMenuRepository {
 
     private final Map<UUID, Menu> dataMap = new ConcurrentHashMap<>();
 
     @Override
     public Menu save(Menu menu) {
         if (menu.getId() == null) {
-            menu.setId(UUID.randomUUID());
+            throw new IllegalArgumentException("Menu id cannot be null");
         }
         UUID id = menu.getId();
         dataMap.put(id, menu);
@@ -42,21 +40,9 @@ public class FakeMenuRepository implements MenuRepository {
 
     @Override
     public List<Menu> findAllByIdIn(List<UUID> ids) {
-        return dataMap.values().stream()
-            .filter(menu -> ids.contains(menu.getId()))
-            .toList();
-    }
-
-    @Override
-    public List<Menu> findAllByProductId(UUID productId) {
-        return dataMap.values().stream()
-            .filter(menu -> Optional.ofNullable(menu.getMenuProducts())
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(MenuProduct::getProduct)
-                .filter(Objects::nonNull)
-                .anyMatch(product -> productId.equals(product.getId()))
-            )
+        return ids.stream()
+            .map(dataMap::get)
+            .filter(Objects::nonNull)
             .toList();
     }
 }

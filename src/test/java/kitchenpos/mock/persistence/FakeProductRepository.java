@@ -8,12 +8,11 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import kitchenpos.mock.client.FakePurgomalumClient;
 import kitchenpos.products.tobe.domain.Product;
-import kitchenpos.products.tobe.domain.ProductId;
 import kitchenpos.products.tobe.domain.TobeProductRepository;
 
 public class FakeProductRepository implements TobeProductRepository {
 
-    private final Map<ProductId, Product> dataMap = new ConcurrentHashMap<>();
+    private final Map<UUID, Product> dataMap = new ConcurrentHashMap<>();
     private final FakePurgomalumClient client = new FakePurgomalumClient();
 
     @Override
@@ -22,19 +21,19 @@ public class FakeProductRepository implements TobeProductRepository {
             UUID id = UUID.randomUUID();
             Product newProduct = new Product(UUID.randomUUID(), product.getName(), client,
                 product.getPrice());
-            dataMap.put(new ProductId(id), newProduct);
+            dataMap.put(id, newProduct);
             return product;
         }
         UUID id = product.getId();
-        dataMap.put(new ProductId(id), product);
+        dataMap.put(id, product);
         return product;
     }
 
     @Override
-    public Optional<Product> findById(ProductId id) {
+    public Optional<Product> findById(UUID id) {
         return dataMap.values()
             .stream()
-            .filter(product -> product.getId().equals(id.getValue()))
+            .filter(product -> product.getId().equals(id))
             .findFirst();
     }
 
@@ -44,10 +43,10 @@ public class FakeProductRepository implements TobeProductRepository {
     }
 
     @Override
-    public List<Product> findAllByIdIn(List<ProductId> ids) {
+    public List<Product> findAllByIdIn(List<UUID> ids) {
         return dataMap.values().stream()
             .filter(
-                product -> ids.stream().map(ProductId::getValue).toList().contains(product.getId()))
+                product -> ids.stream().toList().contains(product.getId()))
             .toList();
     }
 }

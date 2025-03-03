@@ -13,7 +13,7 @@ class ProductTest {
     private final FakePurgomalumClient purgomalumClient = new FakePurgomalumClient();
 
 
-    @DisplayName("")
+    @DisplayName("상품을 생성할 수 있다.")
     @Test
     void create() {
         // given
