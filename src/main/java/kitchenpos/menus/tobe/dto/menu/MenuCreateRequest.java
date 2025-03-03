@@ -18,7 +18,7 @@ public record MenuCreateRequest(String name, BigDecimal price, UUID menuGroupId,
 
         List<MenuProduct> menuProductList = toMenuProducts(menuProducts);
 
-        return new Menu(UUID.randomUUID(), name, purgomalumClient, price, menuGroup, displayed,
+        return new Menu(UUID.randomUUID(), name, purgomalumClient, price, menuGroup.getId(), displayed,
             menuProductList, productPriceService);
     }
 

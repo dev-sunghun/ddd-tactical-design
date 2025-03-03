@@ -31,7 +31,7 @@ class MenuTest {
             MenuProductFixture.create(UUID.randomUUID(), 1L));
 
         // when
-        Menu menu = new Menu(UUID.randomUUID(), name, purgomalumClient, price, menuGroup, displayed,
+        Menu menu = new Menu(UUID.randomUUID(), name, purgomalumClient, price, menuGroup.getId(), displayed,
             menuProducts, productPriceAdapter);
 
         // then

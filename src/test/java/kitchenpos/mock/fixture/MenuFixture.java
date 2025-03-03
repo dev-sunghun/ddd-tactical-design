@@ -20,7 +20,7 @@ public class MenuFixture {
     public static Menu create(String name, BigDecimal price, MenuGroup menuGroup,
         List<MenuProduct> menuProducts, FakeProductPriceAdapter productPriceAdapter) {
 
-        return new Menu(UUID.randomUUID(), name, purgomalumClient, price, menuGroup, true,
+        return new Menu(UUID.randomUUID(), name, purgomalumClient, price, menuGroup.getId(), true,
             menuProducts, productPriceAdapter);
     }
 
