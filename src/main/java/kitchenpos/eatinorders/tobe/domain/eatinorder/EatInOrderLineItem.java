@@ -38,6 +38,11 @@ public class EatInOrderLineItem {
         this.price = new EatInOrderLineItemPrice(price);
     }
 
+    public EatInOrderLineItem(UUID menuId, long quantity) {
+        this.menuId = new MenuId(menuId);
+        this.quantity = new EatInOrderLineItemQuantity(quantity);
+    }
+
     protected EatInOrderLineItem() {
     }
 

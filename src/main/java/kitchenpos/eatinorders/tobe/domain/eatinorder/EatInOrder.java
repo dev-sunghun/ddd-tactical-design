@@ -77,4 +77,8 @@ public class EatInOrder {
     public UUID getRestaurantTableId() {
         return restaurantTableId.getValue();
     }
+
+    public void changeStatus(EatInOrderStatus status) {
+        this.status = status;
+    }
 }

@@ -41,6 +41,11 @@ public class TobeMenuService {
             .orElseThrow(() -> new NoSuchElementException("Menu not found with id: " + menuId));
     }
 
+    @Transactional(readOnly = true)
+    public List<Menu> getAllByIdIn(List<UUID> ids) {
+        return menuRepository.findAllByIdIn(ids);
+    }
+
     @Transactional
     public MenuResponse create(final MenuCreateRequest request) {
         final MenuGroup menuGroup = tobeMenuGroupService.getById(request.menuGroupId());
