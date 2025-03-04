@@ -5,7 +5,7 @@ import kitchenpos.eatinorders.tobe.domain.eatinorder.EatInOrder;
 import kitchenpos.eatinorders.tobe.domain.eatinorder.TobeEatInOrderRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TobeJpaEatInEatInOrderRepository extends TobeEatInOrderRepository,
+public interface TobeJpaEatInOrderRepository extends TobeEatInOrderRepository,
     JpaRepository<EatInOrder, UUID> {
 
 }

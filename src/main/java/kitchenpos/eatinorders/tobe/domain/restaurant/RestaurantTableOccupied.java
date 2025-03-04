@@ -2,7 +2,6 @@ package kitchenpos.eatinorders.tobe.domain.restaurant;
 
 import jakarta.persistence.Embeddable;
 import java.util.Objects;
-import java.util.UUID;
 
 @Embeddable
 public class RestaurantTableOccupied {

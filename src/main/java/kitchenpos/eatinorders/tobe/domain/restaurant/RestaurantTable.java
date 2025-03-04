@@ -35,6 +35,13 @@ public class RestaurantTable {
         this.occupied = new RestaurantTableOccupied(occupied);
     }
 
+    public RestaurantTable(String name) {
+        this.id = new RestaurantTableId(UUID.randomUUID());
+        this.name = new RestaurantTableName(name);
+        this.numberOfGuests = new RestaurantTableNumberOfGuests(0);
+        this.occupied = new RestaurantTableOccupied(false);
+    }
+
     protected RestaurantTable() {
     }
 
@@ -46,11 +53,24 @@ public class RestaurantTable {
         return name.getValue();
     }
 
+    public void changeNumberOfGuests(int numberOfGuests) {
+        this.numberOfGuests = new RestaurantTableNumberOfGuests(numberOfGuests);
+    }
+
     public int getNumberOfGuests() {
         return numberOfGuests.getValue();
     }
 
     public boolean isOccupied() {
         return occupied.getValue();
+    }
+
+    public void occupy() {
+        this.occupied = new RestaurantTableOccupied(true);
+    }
+
+    public void clear() {
+        this.numberOfGuests = new RestaurantTableNumberOfGuests(0);
+        this.occupied = new RestaurantTableOccupied(false);
     }
 }
