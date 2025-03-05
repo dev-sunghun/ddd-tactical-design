@@ -22,23 +22,24 @@ public class EatInOrderLineItem {
     @AttributeOverride(name = "id", column = @Column(name = "menu_id"))
     private MenuId menuId;
 
-
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "quantity"))
     private EatInOrderLineItemQuantity quantity;
 
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "price"))
-    private EatInOrderLineItemPrice price;
-
-    public EatInOrderLineItem(Long seq, long quantity, UUID menuId, BigDecimal price) {
+    public EatInOrderLineItem(Long seq, UUID menuId, long quantity) {
         this.seq = new EatInOrderLineItemSeq(seq);
         this.quantity = new EatInOrderLineItemQuantity(quantity);
         this.menuId = new MenuId(menuId);
-        this.price = new EatInOrderLineItemPrice(price);
     }
 
     public EatInOrderLineItem(UUID menuId, long quantity) {
+        this.menuId = new MenuId(menuId);
+        this.quantity = new EatInOrderLineItemQuantity(quantity);
+    }
+
+    public EatInOrderLineItem(UUID menuId, BigDecimal price, MenuValidator menuValidator,
+        long quantity) {
+        menuValidator.validateDisplayedAndPrice(menuId, price);
         this.menuId = new MenuId(menuId);
         this.quantity = new EatInOrderLineItemQuantity(quantity);
     }
@@ -57,9 +58,5 @@ public class EatInOrderLineItem {
 
     public UUID getMenuId() {
         return menuId.getValue();
-    }
-
-    public BigDecimal getPrice() {
-        return price.getValue();
     }
 }

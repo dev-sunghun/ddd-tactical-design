@@ -36,7 +36,7 @@ public class FakeEatInOrderRepository implements TobeEatInOrderRepository {
     }
 
     @Override
-    public boolean existsByOrderTableIdAndStatusNot(UUID restaurantTableId, EatInOrderStatus status) {
+    public boolean existsByRestaurantTableIdAndStatusNot(UUID restaurantTableId, EatInOrderStatus status) {
         return dataMap.values()
             .stream()
             .anyMatch(order -> order.getRestaurantTableId().equals(restaurantTableId) 

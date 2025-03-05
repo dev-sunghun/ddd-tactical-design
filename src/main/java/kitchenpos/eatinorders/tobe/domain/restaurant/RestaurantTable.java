@@ -12,6 +12,8 @@ import java.util.UUID;
 @Entity(name = "RestaurantTable")
 public class RestaurantTable {
 
+    public static final String ERROR_MESSAGE_UN_OCCUPIED = "미사용중인 가게 테이블 입니다.";
+
     @EmbeddedId
     @AttributeOverride(name = "value", column = @Column(name = "id"))
     private RestaurantTableId id;
@@ -45,6 +47,12 @@ public class RestaurantTable {
     protected RestaurantTable() {
     }
 
+    public void validateOccupied() {
+        if (!isOccupied()) {
+            throw new IllegalStateException(ERROR_MESSAGE_UN_OCCUPIED);
+        }
+    }
+
     public UUID getId() {
         return id.getValue();
     }
@@ -54,6 +62,7 @@ public class RestaurantTable {
     }
 
     public void changeNumberOfGuests(int numberOfGuests) {
+        validateOccupied();
         this.numberOfGuests = new RestaurantTableNumberOfGuests(numberOfGuests);
     }
 

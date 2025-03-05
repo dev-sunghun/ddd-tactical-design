@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import kitchenpos.eatinorders.tobe.domain.restaurant.RestaurantTableId;
 import kitchenpos.shared.domain.OrderType;
@@ -17,6 +18,11 @@ import kitchenpos.shared.domain.OrderType;
 @Table(name = "orders")
 @Entity(name = "TobeEatInOrder")
 public class EatInOrder {
+
+    public static final String ERROR_MESSAGE_VALUE_NULL = "값이 NULL 입니다.";
+    public static final String ERROR_STATUS_NOT_WAITING = "대기중 상태에서만 변경 가능합니다.";
+    public static final String ERROR_STATUS_NOT_ACCEPTED = "수락함 상태에서만 변경 가능합니다.";
+    public static final String ERROR_STATUS_NOT_SERVED = "제공됨 상태에서만 변경 가능합니다.";
 
     @EmbeddedId
     @AttributeOverride(name = "value", column = @Column(name = "id"))
@@ -44,6 +50,7 @@ public class EatInOrder {
     public EatInOrder(UUID id, OrderType type, EatInOrderStatus status, LocalDateTime orderDateTime,
         List<EatInOrderLineItem> eatInOrderLineItems, UUID restaurantTableId) {
         this.id = new EatInOrderId(id);
+        validate(type);
         this.type = type;
         this.status = status;
         this.orderDateTime = new EatInOrderDateTime(orderDateTime);
@@ -52,6 +59,12 @@ public class EatInOrder {
     }
 
     protected EatInOrder() {
+    }
+
+    private static void validate(OrderType type) {
+        if (Objects.isNull(type)) {
+            throw new IllegalArgumentException(ERROR_MESSAGE_VALUE_NULL);
+        }
     }
 
     public UUID getId() {
@@ -78,7 +91,26 @@ public class EatInOrder {
         return restaurantTableId.getValue();
     }
 
-    public void changeStatus(EatInOrderStatus status) {
-        this.status = status;
+    public void accepted() {
+        if (getStatus() != EatInOrderStatus.WAITING) {
+            throw new IllegalStateException(ERROR_STATUS_NOT_WAITING);
+        }
+        this.status = EatInOrderStatus.ACCEPTED;
+    }
+
+    public void served() {
+        if (getStatus() != EatInOrderStatus.ACCEPTED) {
+            throw new IllegalStateException(ERROR_STATUS_NOT_ACCEPTED);
+        }
+        this.status = EatInOrderStatus.SERVED;
+    }
+
+    public void completed() {
+        if (type == OrderType.TAKEOUT || type == OrderType.EAT_IN) {
+            if (status != EatInOrderStatus.SERVED) {
+                throw new IllegalStateException(ERROR_STATUS_NOT_SERVED);
+            }
+        }
+        this.status = EatInOrderStatus.COMPLETED;
     }
 }

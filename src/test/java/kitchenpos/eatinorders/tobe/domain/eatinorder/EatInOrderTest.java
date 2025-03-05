@@ -2,7 +2,6 @@ package kitchenpos.eatinorders.tobe.domain.eatinorder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +20,7 @@ class EatInOrderTest {
         final EatInOrderStatus orderStatus = EatInOrderStatus.WAITING;
         final LocalDateTime orderDateTime = LocalDateTime.now();
         final List<EatInOrderLineItem> eatInOrderLineItems = List.of(
-            new EatInOrderLineItem(1L, 1, UUID.randomUUID(), BigDecimal.valueOf(1000)));
+            new EatInOrderLineItem(1L, UUID.randomUUID(), 1));
         final UUID restaurantTableId = UUID.randomUUID();
 
         // when

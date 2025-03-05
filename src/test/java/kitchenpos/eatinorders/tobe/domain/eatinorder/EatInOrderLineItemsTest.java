@@ -3,7 +3,6 @@ package kitchenpos.eatinorders.tobe.domain.eatinorder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -20,11 +19,10 @@ class EatInOrderLineItemsTest {
         final long seq = 1L;
         final long quantity = 1;
         final UUID menuId = UUID.randomUUID();
-        final BigDecimal price = BigDecimal.valueOf(1000);
 
         List<EatInOrderLineItem> eatInOrderLineItemList = List.of(
-            new EatInOrderLineItem(seq, quantity, menuId, price),
-            new EatInOrderLineItem((seq + 1), quantity, menuId, price)
+            new EatInOrderLineItem(seq, menuId, quantity),
+            new EatInOrderLineItem((seq + 1), menuId, quantity)
         );
 
         // when
@@ -39,7 +37,6 @@ class EatInOrderLineItemsTest {
         eatInOrderLineItems.getValue().forEach(menuProduct -> {
             assertThat(menuProduct.getMenuId()).isEqualTo(menuId);
             assertThat(menuProduct.getQuantity()).isEqualTo(quantity);
-            assertThat(menuProduct.getPrice()).isEqualTo(price);
         });
     }
 

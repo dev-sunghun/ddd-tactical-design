@@ -19,8 +19,7 @@ public class TobeRestaurantTableService {
     private final RestaurantTableRepository restaurantTableRepository;
     private final TobeEatInOrderRepository eatInOrderRepository;
 
-    public TobeRestaurantTableService(final RestaurantTableRepository restaurantTableRepository,
-        final TobeEatInOrderRepository eatInOrderRepository) {
+    public TobeRestaurantTableService(final RestaurantTableRepository restaurantTableRepository, TobeEatInOrderRepository eatInOrderRepository) {
         this.restaurantTableRepository = restaurantTableRepository;
         this.eatInOrderRepository = eatInOrderRepository;
     }
@@ -48,8 +47,7 @@ public class TobeRestaurantTableService {
     @Transactional
     public RestaurantTableResponse clear(final UUID restaurantTableId) {
         final RestaurantTable restaurantTable = getById(restaurantTableId);
-        if (eatInOrderRepository.existsByOrderTableIdAndStatusNot(restaurantTableId,
-            EatInOrderStatus.COMPLETED)) {
+        if (eatInOrderRepository.existsByRestaurantTableIdAndStatusNot(restaurantTableId, EatInOrderStatus.COMPLETED)) {
             throw new IllegalStateException();
         }
         restaurantTable.clear();
@@ -60,9 +58,6 @@ public class TobeRestaurantTableService {
     public RestaurantTableResponse changeNumberOfGuests(final UUID restaurantTableId,
         final RestaurantTableChangeRequest request) {
         final RestaurantTable restaurantTable = getById(restaurantTableId);
-        if (!restaurantTable.isOccupied()) {
-            throw new IllegalStateException();
-        }
         restaurantTable.changeNumberOfGuests(request.numberOfGuests());
         return RestaurantTableResponse.from(restaurantTable);
     }

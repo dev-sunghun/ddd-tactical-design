@@ -35,8 +35,7 @@ class TobeRestaurantTableServiceTest {
     void setUp() {
         orderTableRepository = new FakeRestaurantTableRepository();
         eatInOrderRepository = new FakeEatInOrderRepository();
-        orderTableService = new TobeRestaurantTableService(orderTableRepository,
-            eatInOrderRepository);
+        orderTableService = new TobeRestaurantTableService(orderTableRepository, eatInOrderRepository);
     }
 
     @DisplayName("주문 테이블을 등록할 수 있다.")
