@@ -9,10 +9,10 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+import kitchenpos.menus.tobe.domain.ProductPriceService;
 import kitchenpos.menus.tobe.domain.menugroup.MenuGroupId;
 import kitchenpos.menus.tobe.domain.menuproduct.MenuProduct;
 import kitchenpos.menus.tobe.domain.menuproduct.MenuProducts;
-import kitchenpos.menus.tobe.domain.ohs.ProductPriceService;
 import kitchenpos.shared.client.PurgomalumClient;
 
 @Table(name = "menu")

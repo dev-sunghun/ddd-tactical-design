@@ -1,21 +1,25 @@
-package kitchenpos.eatinorders.tobe.infra.client;
+package kitchenpos.menus.tobe.infra.ohs;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import kitchenpos.eatinorders.tobe.domain.eatinorder.MenuValidator;
+import kitchenpos.annotations.OpenHostService;
+import kitchenpos.eatinorders.tobe.domain.eatinorder.MenuValidationService;
 import kitchenpos.menus.tobe.domain.menu.Menu;
 import kitchenpos.menus.tobe.domain.menu.TobeMenuRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
-public class MenuValidatorImpl implements MenuValidator {
+
+@OpenHostService(
+    description = "주문 컨텍스트에 메뉴 유효성 검증 서비스 제공",
+    downstreamContexts = {"EatInOrdersContext", "TakeoutOrdersContext", "DeliveryOrdersContext"}
+)
+public class MenuValidationServiceImpl implements MenuValidationService {
 
     private final TobeMenuRepository menuRepository;
 
-    public MenuValidatorImpl(TobeMenuRepository menuRepository) {
+    public MenuValidationServiceImpl(TobeMenuRepository menuRepository) {
         this.menuRepository = menuRepository;
     }
 

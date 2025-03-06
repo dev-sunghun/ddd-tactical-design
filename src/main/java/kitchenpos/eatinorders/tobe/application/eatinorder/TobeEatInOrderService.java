@@ -10,7 +10,7 @@ import kitchenpos.eatinorders.tobe.application.restaurant.TobeRestaurantTableSer
 import kitchenpos.eatinorders.tobe.domain.eatinorder.EatInOrder;
 import kitchenpos.eatinorders.tobe.domain.eatinorder.EatInOrderLineItem;
 import kitchenpos.eatinorders.tobe.domain.eatinorder.EatInOrderStatus;
-import kitchenpos.eatinorders.tobe.domain.eatinorder.MenuValidator;
+import kitchenpos.eatinorders.tobe.domain.eatinorder.MenuValidationService;
 import kitchenpos.eatinorders.tobe.domain.eatinorder.TobeEatInOrderRepository;
 import kitchenpos.eatinorders.tobe.domain.restaurant.RestaurantTable;
 import kitchenpos.eatinorders.tobe.dto.eatinorder.EatInOrderCreateRequest;
@@ -23,14 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class TobeEatInOrderService {
 
     private final TobeEatInOrderRepository eatInOrderRepository;
-    private final MenuValidator menuValidator;
+    private final MenuValidationService menuValidationService;
     private final TobeRestaurantTableService restaurantTableService;
 
     public TobeEatInOrderService(final TobeEatInOrderRepository eatInOrderRepository,
-        final MenuValidator menuValidator,
+        final MenuValidationService menuValidationService,
         final TobeRestaurantTableService restaurantTableService) {
         this.eatInOrderRepository = eatInOrderRepository;
-        this.menuValidator = menuValidator;
+        this.menuValidationService = menuValidationService;
         this.restaurantTableService = restaurantTableService;
     }
 
@@ -63,12 +63,12 @@ public class TobeEatInOrderService {
         }
 
         List<UUID> menuIds = requests.stream().map(EatInOrderLineItemRequest::menuId).toList();
-        menuValidator.validateCount(menuIds, requests.size());
+        menuValidationService.validateCount(menuIds, requests.size());
 
         final List<EatInOrderLineItem> eatInOrderLineItems = new ArrayList<>();
         for (final EatInOrderLineItemRequest request : requests) {
             eatInOrderLineItems.add(
-                new EatInOrderLineItem(request.menuId(), request.price(), menuValidator,
+                new EatInOrderLineItem(request.menuId(), request.price(), menuValidationService,
                     request.quantity()));
         }
         return eatInOrderLineItems;

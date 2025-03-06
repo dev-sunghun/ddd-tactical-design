@@ -13,7 +13,6 @@ import kitchenpos.mock.fixture.ProductFixture;
 import kitchenpos.mock.persistence.FakeProductRepository;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.ProductName;
-import kitchenpos.products.tobe.domain.ProductPrice;
 import kitchenpos.products.tobe.dto.ProductRequest;
 import kitchenpos.products.tobe.dto.ProductResponse;
 import org.junit.jupiter.api.BeforeEach;
